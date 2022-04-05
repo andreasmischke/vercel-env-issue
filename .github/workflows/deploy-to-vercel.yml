@@ -1,0 +1,29 @@
+name: Deploy to Vercel
+on: [push]
+jobs:
+  Deployment:
+    runs-on: ubuntu-latest
+    environment:
+      name: Demo
+      url: https://env-var-issue.vercel.app/
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME }}
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.1.0
+        with:
+          node-version: 16.14.2
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install vercel
+        run: yarn global add vercel@24.0.0
+      - name: Deploy to vercel
+        run: |
+          VC="vercel --token $VERCEL_TOKEN"
+          $VC link --confirm --project $VERCEL_PROJECT_NAME
+          STORYBOOK_URL=storybook-url-from-the-ci-environment.example.com
+          PREVIEW_URL=preview-url-from-the-ci-environment.example.com
+          CI_COMMIT_REF_SLUG=some-meta-value-we-need-for-the-ci
+          DEPLOYMENT_URL=$($VC --confirm --meta GITLAB_CI_BRANCH=$CI_COMMIT_REF_SLUG --env NEXTAUTH_URL=$PREVIEW_URL --env STORYBOOK_URL=$STORYBOOK_URL)
+          echo "preview build was deployed to $DEPLOYMENT_URL"
