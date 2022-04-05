@@ -25,6 +25,6 @@ jobs:
           STORYBOOK_URL=storybook-url-from-the-ci-environment.example.com
           PREVIEW_URL=preview-url-from-the-ci-environment.example.com
           CI_COMMIT_REF_SLUG=some-meta-value-we-need-for-the-ci
-          echo "next command with resolved variables: $VC --confirm --meta GITLAB_CI_BRANCH=$CI_COMMIT_REF_SLUG --env NEXTAUTH_URL=$PREVIEW_URL --env STORYBOOK_URL=$STORYBOOK_URL"
-          DEPLOYMENT_URL=$($VC --confirm --meta GITLAB_CI_BRANCH=$CI_COMMIT_REF_SLUG --env NEXTAUTH_URL=$PREVIEW_URL --env STORYBOOK_URL=$STORYBOOK_URL)
+          echo "next command with resolved variables: $VC --prod --confirm --meta GITLAB_CI_BRANCH=$CI_COMMIT_REF_SLUG --env NEXTAUTH_URL=$PREVIEW_URL --env STORYBOOK_URL=$STORYBOOK_URL"
+          DEPLOYMENT_URL=$($VC --prod --confirm --meta GITLAB_CI_BRANCH=$CI_COMMIT_REF_SLUG --env NEXTAUTH_URL=$PREVIEW_URL --env STORYBOOK_URL=$STORYBOOK_URL)
           echo "preview build was deployed to $DEPLOYMENT_URL"
